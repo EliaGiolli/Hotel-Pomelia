@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/core/lib/prisma";
 
 // GET /api/rooms — returns all rooms from MongoDB
 // Falls back to static seed data if the database is empty or unavailable

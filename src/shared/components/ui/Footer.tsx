@@ -13,9 +13,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
 const footerLinks = [
-  { label: "Camere", href: "/camere" },
-  { label: "Ristorazione", href: "/ristorazione" },
-  { label: "Esperienze", href: "/esperienze" },
+  { label: "Camere & Suite", href: "/camere" },
+  { label: "Ristorazione & Orto", href: "/ristorazione" },
+  { label: "Esperienze & Territorio", href: "/esperienze" },
   { label: "Sostenibilità", href: "/sostenibilita" },
   { label: "Prenota", href: "/prenota" },
 ];
@@ -34,17 +34,19 @@ export default function Footer() {
               <LocalFloristIcon sx={{ color: "#F4C430" }} aria-hidden="true" />
               <Typography
                 variant="h6"
-                sx={{ fontFamily: "var(--font-playfair), serif", color: "#FFFFFF" }}
+                sx={{ fontFamily: '"Playfair Display", Georgia, serif', color: "#FFFFFF" }}
               >
                 Hotel Pomelia
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", mb: 2, lineHeight: 1.8 }}>
-              Tre generazioni di ospitalità autentica nel cuore degli Iblei.
-              Gestito da Chiara, Laura e Alessandro con passione per la Sicilia
-              e rispetto per il pianeta.
+            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", mb: 1.5, lineHeight: 1.8 }}>
+              Tre generazioni di ospitalità autentica nel cuore degli Iblei ragusani.
+              Fondato da Salvatore nel 1958, oggi gestito da Chiara, Laura e Alessandro
+              con passione per la Sicilia e rispetto per il pianeta.
             </Typography>
-            {/* Società Benefit badge */}
+            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.5)", mb: 2, fontSize: "0.8rem", fontStyle: "italic" }}>
+              2% di ogni prenotazione diretta alla rimboschimento Valle dell&apos;Ippari
+            </Typography>
             <Chip
               icon={<VerifiedIcon sx={{ fontSize: 16, color: "#00A896 !important" }} aria-hidden="true" />}
               label="Società Benefit"
@@ -60,13 +62,10 @@ export default function Footer() {
 
           {/* Navigation column */}
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Typography
-              variant="overline"
-              sx={{ color: "#F4C430", fontWeight: 700, letterSpacing: "0.12em" }}
-            >
+            <Typography variant="overline" sx={{ color: "#F4C430", fontWeight: 700, letterSpacing: "0.12em" }}>
               Esplora
             </Typography>
-            <Box component="nav" aria-label="Link footer" sx={{ mt: 1 }}>
+            <Box component="nav" aria-label="Link di navigazione footer" sx={{ mt: 1 }}>
               {footerLinks.map((link) => (
                 <Box key={link.href} sx={{ mb: 0.75 }}>
                   <Link
@@ -89,19 +88,18 @@ export default function Footer() {
 
           {/* Contact column */}
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Typography
-              variant="overline"
-              sx={{ color: "#F4C430", fontWeight: 700, letterSpacing: "0.12em" }}
-            >
+            <Typography variant="overline" sx={{ color: "#F4C430", fontWeight: 700, letterSpacing: "0.12em" }}>
               Contatti
             </Typography>
             <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 1.5 }}>
               <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
                 <PlaceIcon sx={{ fontSize: 18, color: "#00A896", mt: 0.3, flexShrink: 0 }} aria-hidden="true" />
-                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", lineHeight: 1.6 }}>
-                  Contrada Pomelia, S.P. 25<br />
-                  97100 Ragusa (RG), Sicilia
-                </Typography>
+                <address style={{ fontStyle: "normal" }}>
+                  <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", lineHeight: 1.6 }}>
+                    Contrada Pomelia, S.P. 25<br />
+                    97100 Ragusa (RG), Sicilia
+                  </Typography>
+                </address>
               </Box>
               <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
                 <PhoneIcon sx={{ fontSize: 18, color: "#00A896", flexShrink: 0 }} aria-hidden="true" />

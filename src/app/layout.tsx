@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ThemeRegistry from "@/components/ThemeRegistry";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/shared/components/ui/Navbar";
+import Footer from "@/shared/components/ui/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="it">
       <head>
-        {/* Google Fonts loaded at runtime — avoids SSL issues that block next/font/google at build time */}
+        {/* Fonts via Google Fonts runtime — avoids SSL issues at build time */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -39,7 +39,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        {/* ThemeRegistry is a client component — keeps the MUI theme (which has functions) off the RSC boundary */}
+        {/*
+          ThemeRegistry is a "use client" boundary — it wraps MUI ThemeProvider
+          (which contains non-serialisable functions) so it never crosses the RSC boundary.
+          Theme colours: primary #F4C430 (saffron gold) · secondary #00A896 (teal)
+        */}
         <ThemeRegistry>
           <Navbar />
           <main>{children}</main>

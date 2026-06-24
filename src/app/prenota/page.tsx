@@ -20,7 +20,7 @@ import Divider from "@mui/material/Divider";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useBookingStore } from "@/store/useBookingStore";
+import { useBookingStore } from "@/core/store/useBookingStore";
 
 const STEPS = ["Date", "Camera & Pensione", "I tuoi dati", "Riepilogo"];
 

@@ -33,41 +33,32 @@ export default function Navbar() {
     <>
       <AppBar
         position="sticky"
-        sx={{
-          backgroundColor: "#1A1A2E",
-          boxShadow: "0 1px 0 rgba(255,255,255,0.08)",
-        }}
+        component="header"
+        sx={{ backgroundColor: "#1A1A2E", boxShadow: "0 1px 0 rgba(255,255,255,0.08)" }}
       >
-        <Toolbar sx={{ maxWidth: "lg", width: "100%", mx: "auto", px: { xs: 2, md: 4 } }}>
-          {/* Logo */}
+        <Toolbar
+          component="nav"
+          aria-label="Navigazione principale"
+          sx={{ maxWidth: "lg", width: "100%", mx: "auto", px: { xs: 2, md: 4 } }}
+        >
           <Box
             component={Link}
             href="/"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              textDecoration: "none",
-              flexGrow: 1,
-            }}
+            aria-label="Hotel Pomelia — Homepage"
+            sx={{ display: "flex", alignItems: "center", gap: 1, textDecoration: "none", flexGrow: 1 }}
           >
             <LocalFloristIcon sx={{ color: "#F4C430", fontSize: 26 }} aria-hidden="true" />
             <Typography
               variant="h6"
               component="span"
-              sx={{
-                color: "#FFFFFF",
-                fontFamily: "var(--font-playfair), Georgia, serif",
-                fontWeight: 700,
-                letterSpacing: "0.02em",
-              }}
+              sx={{ color: "#FFFFFF", fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: "0.02em" }}
             >
               Hotel Pomelia
             </Typography>
           </Box>
 
-          {/* Desktop navigation */}
-          <Box component="nav" sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, alignItems: "center" }}>
+          {/* Desktop nav */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, alignItems: "center" }}>
             {navLinks.map((link) => (
               <Button
                 key={link.href}
@@ -76,8 +67,8 @@ export default function Navbar() {
                 aria-current={pathname === link.href ? "page" : undefined}
                 sx={{
                   color: pathname === link.href ? "#F4C430" : "rgba(255,255,255,0.85)",
-                  "&:hover": { color: "#F4C430", backgroundColor: "rgba(244,196,48,0.08)" },
                   fontWeight: pathname === link.href ? 700 : 500,
+                  "&:hover": { color: "#F4C430", backgroundColor: "rgba(244,196,48,0.08)" },
                 }}
               >
                 {link.label}
@@ -98,6 +89,8 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <IconButton
             aria-label="Apri menu di navigazione"
+            aria-expanded={drawerOpen}
+            aria-controls="mobile-nav-drawer"
             onClick={() => setDrawerOpen(true)}
             sx={{ display: { md: "none" }, color: "#FFFFFF" }}
           >
@@ -108,17 +101,14 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       <Drawer
+        id="mobile-nav-drawer"
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        PaperProps={{ sx: { width: 280, backgroundColor: "#1A1A2E" } }}
+        PaperProps={{ sx: { width: 280, backgroundColor: "#1A1A2E" }, component: "nav", "aria-label": "Menu mobile" }}
       >
         <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end" }}>
-          <IconButton
-            aria-label="Chiudi menu"
-            onClick={() => setDrawerOpen(false)}
-            sx={{ color: "#FFFFFF" }}
-          >
+          <IconButton aria-label="Chiudi menu" onClick={() => setDrawerOpen(false)} sx={{ color: "#FFFFFF" }}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -128,11 +118,9 @@ export default function Navbar() {
               <ListItemButton
                 component={Link}
                 href={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
                 onClick={() => setDrawerOpen(false)}
-                sx={{
-                  px: 3,
-                  color: pathname === link.href ? "#F4C430" : "rgba(255,255,255,0.85)",
-                }}
+                sx={{ px: 3, color: pathname === link.href ? "#F4C430" : "rgba(255,255,255,0.85)" }}
               >
                 <ListItemText
                   primary={link.label}

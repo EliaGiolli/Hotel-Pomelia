@@ -1,30 +1,29 @@
-# 🌿 Hotel Pomelia
+# Hotel Pomelia
 
 > **Boutique hotel ecosostenibile nel cuore della Sicilia ragusana.**  
 > Official website for a fictional *Società Benefit* hospitality brand — built as a showcase of modern full-stack web development with a focus on SEO, accessibility, and sustainable design.
 
----
-
-![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=flat-square&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![MUI](https://img.shields.io/badge/Material_UI_v6-007FFF?style=flat-square&logo=mui&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma_5-2D3748?style=flat-square&logo=prisma&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
-![Zustand](https://img.shields.io/badge/Zustand-brown?style=flat-square)
+![Zod](https://img.shields.io/badge/Zod-3E67B1?style=flat-square&logo=zod&logoColor=white)
 
 ---
 
 ## Overview
 
-Hotel Pomelia is a **full-stack informational & booking-request website** for a three-generation, family-run boutique hotel located in the Ragusa Iblea region of Sicily. The hotel operates as a certified *Società Benefit*, prioritising:
+Hotel Pomelia is a **full-stack informational & booking-request website** for a three-generation, family-run boutique hotel in the Ragusa Iblea region of Sicily. The hotel operates as a certified *Società Benefit* and prioritises:
 
-- 100% renewable solar energy
-- Zero-kilometer organic kitchen (*maccu di favi*, *schiaccia ragusana*, *mpanatigghi*)
+- 100% renewable solar energy (130% of capacity)
+- Zero-kilometer organic kitchen (*maccu di favi*, *schiaccia ragusana*, *'mpanatigghi*)
 - Upcycled furniture crafted by local Sicilian artisans
 - GOTS-certified organic hemp & cotton linens
-- A certified barrier-free private beach (zero architectural barriers)
+- A certified barrier-free private beach
 
-The site is designed to convert organic search traffic through structured semantic HTML, Next.js Metadata API, and JSON-LD schema — no payment gateway required.
+The site is engineered to convert organic search traffic through structured semantic HTML, Next.js 16 Metadata API, JSON-LD Hotel schema, and pure React Server Components on every informational page.
 
 ---
 
@@ -32,39 +31,86 @@ The site is designed to convert organic search traffic through structured semant
 
 | Layer | Technology |
 |---|---|
-| Framework | [Next.js 14](https://nextjs.org/) — App Router, Server & Client Components |
+| Framework | Next.js 16 — App Router, RSC-first, Server Actions |
 | Language | TypeScript 5 |
-| UI Library | [Material UI v6](https://mui.com/) with custom Mediterranean theme |
-| State Management | [Zustand v5](https://zustand-demo.pmnd.rs/) — booking form flow |
-| Database | MongoDB Atlas via [Prisma ORM v5](https://www.prisma.io/) |
-| Styling | Emotion (MUI default) + custom palette (`#F4C430` terracotta · `#00A896` teal) |
-| Images | Next.js `<Image>` + Unsplash copyright-free placeholders |
-| Date Handling | [Day.js](https://day.js.org/) + MUI X Date Pickers |
+| UI Library | Material UI v6 with custom Mediterranean theme (`#F4C430` · `#00A896`) |
+| Validation | Zod — schema-first, shared between client and server |
+| State Management | Zustand v5 — booking form multi-step flow |
+| Database | MongoDB Atlas via Prisma ORM v5 |
+| Styling | Emotion (MUI default) — no CSS modules, no Tailwind |
+| Images | Next.js `<Image>` with Unsplash placeholders |
 
 ---
 
-## Features
+## Architecture
 
-- **Server Components first** — all informational pages are RSC for fast TTFB and zero hydration cost
-- **SEO-optimised** — per-page `metadata` exports, Open Graph tags, and a Hotel `JSON-LD` schema on the homepage
-- **Multi-step booking form** — Zustand-managed steps (dates → room type → board option → confirm)
-- **REST API** — `POST /api/bookings` validates and persists requests; `GET /api/rooms` serves room data
-- **Accessible** — `aria-label` on all icon buttons, semantic landmarks (`<main>`, `<article>`, `<section>`), high contrast palette
-- **Responsive** — MUI `Grid2` breakpoints from mobile-first to desktop
+The project follows a **three-layer feature-based structure**:
+
+```
+src/
+├── app/                        # Next.js App Router — thin page wrappers only
+│   ├── layout.tsx              # Root layout: ThemeRegistry, Navbar, Footer
+│   ├── page.tsx                # / — metadata + JSON-LD + <HomeContent />
+│   ├── camere/page.tsx
+│   ├── ristorazione/page.tsx
+│   ├── esperienze/page.tsx
+│   ├── sostenibilita/page.tsx
+│   ├── prenota/page.tsx        # Client Component — multi-step booking form
+│   └── api/                    # Legacy REST routes (→ removed in Phase 2)
+│
+├── core/                       # Infrastructure shared across the entire app
+│   ├── database/
+│   │   └── prisma.ts           # Singleton Prisma client
+│   ├── store/                  # Global Zustand stores (Phase 2)
+│   └── theme/
+│       └── theme.ts            # MUI theme: palette, typography, component overrides
+│
+├── shared/                     # Reusable UI & utilities, domain-agnostic
+│   ├── components/
+│   │   └── ui/
+│   │       ├── Navbar.tsx      # "use client" — sticky nav with mobile drawer
+│   │       └── Footer.tsx      # RSC — semantic footer with contact & links
+│   ├── schemas/                # Cross-feature Zod schemas (Phase 3)
+│   ├── types/                  # Shared TypeScript types
+│   └── helpers/
+│
+└── features/                   # Domain-scoped modules
+    ├── home/
+    │   └── components/HomeContent.tsx
+    ├── camere/
+    │   └── components/CamereContent.tsx
+    ├── ristorazione/
+    │   └── components/RistorazioneContent.tsx
+    ├── esperienze/
+    │   └── components/EsperienzeContent.tsx
+    ├── booking/
+    │   ├── schemas/
+    │   │   └── bookingFormSchema.ts    # Zod — validated on client + server
+    │   ├── actions/
+    │   │   └── submitBooking.ts        # Server Action replacing /api/bookings
+    │   ├── components/                 # RHF multi-step form (Phase 3)
+    │   └── hooks/
+    └── sostenibilita/
+```
+
+### Design principles
+
+- **`app/` pages are wrappers** — they export `metadata` and render one feature component. No business logic.
+- **`core/` is infrastructure** — Prisma client, theme, global stores. Never imports from `features/`.
+- **`features/` own their domain** — components, actions, schemas, and hooks live together. A feature imports from `core/` and `shared/`, never from another feature.
+- **RSC by default** — `"use client"` only where interactivity is unavoidable (Navbar, booking form).
 
 ---
 
 ## Routes
 
 ```
-/                  → Home — hero, value proposition, highlights, CTA
-/camere            → Accommodations — room cards with artisan features
-/ristorazione      → Restaurant & Garden — 0-km kitchen, workshops
-/esperienze        → Territory & Activities — trekking, olive oil tasting
-/sostenibilita     → Our Manifesto — sustainability pillars
-/prenota           → Booking Request Form (Client Component, multi-step)
-/api/bookings      → POST — create booking request
-/api/rooms         → GET  — list rooms
+/                  → Home — hero, 3 generazioni, Società Benefit manifesto, CTA
+/camere            → Camere & Suite — 4 room cards with artisan features
+/ristorazione      → Ristorante & Orto — 0-km kitchen, dishes, workshops
+/esperienze        → Territorio & Esperienze — trekking, oil tasting, Agrigento, beach
+/sostenibilita     → Manifesto — sustainability pillars with progress metrics
+/prenota           → Booking Request Form — multi-step (dates → room → guest → confirm)
 ```
 
 ---
@@ -84,27 +130,23 @@ cd hotel-pomelia
 npm install
 ```
 
-### 2. Configure environment variables
-
-Copy the example and fill in your values:
+### 2. Environment variables
 
 ```bash
 cp .env.example .env.local
 ```
 
 ```env
-# .env.local
 DATABASE_URL="mongodb+srv://<user>:<password>@cluster.mongodb.net/hotel-pomelia?retryWrites=true&w=majority"
 ```
 
 ### 3. Initialise the database
 
 ```bash
-# Push the Prisma schema to MongoDB and generate the client
-npm run db:push
+npm run db:push      # Push schema to MongoDB and generate Prisma client
 ```
 
-### 4. Start the dev server
+### 4. Start dev server
 
 ```bash
 npm run dev
@@ -127,35 +169,6 @@ npm run dev
 
 ---
 
-## Project Structure
-
-```
-hotel-pomelia/
-├── prisma/
-│   └── schema.prisma        # Room + BookingRequest models
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx        # Root layout — MUI ThemeProvider, fonts
-│   │   ├── page.tsx          # / — Home (Server Component)
-│   │   ├── camere/page.tsx   # /camere (Server Component)
-│   │   ├── prenota/page.tsx  # /prenota (Client Component)
-│   │   └── api/
-│   │       ├── bookings/route.ts
-│   │       └── rooms/route.ts
-│   ├── components/
-│   │   ├── Navbar.tsx
-│   │   └── Footer.tsx
-│   ├── store/
-│   │   └── useBookingStore.ts  # Zustand booking flow state
-│   ├── theme/
-│   │   └── theme.ts            # Custom MUI palette & typography
-│   └── lib/
-│       └── prisma.ts           # Singleton Prisma client
-└── public/
-```
-
----
-
 ## Database Schema
 
 ```prisma
@@ -164,8 +177,8 @@ model Room {
   name        String
   description String
   capacity    Int
-  features    String[]   // e.g. ["Arredi di recupero", "Lenzuola in Canapa"]
-  images      String[]   // Unsplash URLs
+  features    String[]
+  images      String[]
 }
 
 model BookingRequest {
@@ -188,10 +201,23 @@ model BookingRequest {
 
 | Token | Value | Usage |
 |---|---|---|
-| Primary | `#F4C430` | Accents, CTAs, icons |
-| Secondary | `#00A896` | Teal highlights, links |
+| Primary (Saffron Gold) | `#F4C430` | CTAs, icons, active states |
+| Secondary (Teal) | `#00A896` | Highlights, links, labels |
 | Background warm | `#FAF7F0` | Section backgrounds |
-| Typography | Playfair Display + Inter | Headings + body |
+| Dark navy | `#1A1A2E` | Navbar, footer, dark sections |
+| Terracotta | `#C85C40` | Error states, Family badge |
+| Heading font | Playfair Display | h1–h6 |
+| Body font | Inter | Body, captions, UI |
+
+---
+
+## Roadmap
+
+| Phase | Status | Description |
+|---|---|---|
+| **Phase 1** — Upgrade & Structure | ✅ Done | Next.js 16, React 19, MUI 6.5, feature-based folder layout, Zod schema, Server Action stub |
+| **Phase 2** — Domain Decomposition | ⏳ Next | Remove API routes, migrate Zustand store to `core/store/`, wire Server Action to booking form |
+| **Phase 3** — Forms & Validation | ⏳ Pending | React Hook Form + Zod resolver, multi-step form in `features/booking/components/`, accessible field error display |
 
 ---
 
