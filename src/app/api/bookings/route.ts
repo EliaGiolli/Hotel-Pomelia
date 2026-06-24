@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/core/lib/prisma";
 
 // POST /api/bookings — receives a booking request and stores it in MongoDB
 export async function POST(req: NextRequest) {

@@ -30,32 +30,31 @@ const theme = createTheme({
     divider: "rgba(0,0,0,0.08)",
   },
   typography: {
-    // CSS variables set in layout.tsx via next/font
-    fontFamily: "var(--font-inter), system-ui, sans-serif",
+    fontFamily: '"Inter", system-ui, sans-serif',
     h1: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 700,
       letterSpacing: "-0.02em",
     },
     h2: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 700,
       letterSpacing: "-0.01em",
     },
     h3: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 600,
     },
     h4: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 600,
     },
     h5: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 500,
     },
     h6: {
-      fontFamily: "var(--font-playfair), Georgia, serif",
+      fontFamily: '"Playfair Display", Georgia, serif',
       fontWeight: 500,
     },
     button: {
