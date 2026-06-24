@@ -1,0 +1,32 @@
+/* Font variables referenced by the MUI theme (theme.ts) */
+:root {
+  --font-playfair: 'Playfair Display';
+  --font-inter: 'Inter';
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #faf7f0;
+}
+
+/* Remove default focus ring and replace with accessible custom one */
+:focus-visible {
+  outline: 3px solid #00a896;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth image loading */
+img {
+  display: block;
+}
