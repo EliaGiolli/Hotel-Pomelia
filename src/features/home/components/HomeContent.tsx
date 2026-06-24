@@ -257,7 +257,7 @@ export default function HomeContent() {
               Dal 1958
             </Typography>
             <Typography id="storia-heading" variant="h2" sx={{ mt: 1, mb: 3, fontSize: { xs: "1.8rem", md: "2.5rem" } }}>
-              Tre generazioni, un'unica storia
+              Tre generazioni, un&apos;unica storia
             </Typography>
             <Typography variant="body1" sx={{ color: "text.secondary", lineHeight: 1.9 }}>
               Hotel Pomelia non è nata come impresa. È nata come gesto di accoglienza.
