@@ -42,8 +42,26 @@ async function main() {
     // 2. Popolamento Esperienze
     await Experience.deleteMany({});
     await Experience.create([
-      { title: "Tour delle Cantine", description: "Degustazione di vini locali e prodotti tipici.", price: 45, duration: "3 ore" },
-      { title: "Escursione in Barca", description: "Giornata alla scoperta delle calette nascoste.", price: 80, duration: "1 giorno" },
+      {
+        title: "Tour delle Cantine",
+        subtitle: "I sapori del Val di Noto",
+        description: "Degustazione di vini locali e prodotti tipici.",
+        price: 45,
+        duration: "3 ore",
+        iconKey: "wine",
+        tags: ["Enogastronomia", "Cultura"],
+        highlights: ["Guida esperta", "Degustazione di 4 vini", "Tagliere incluso"],
+      },
+      {
+        title: "Escursione in Barca",
+        subtitle: "Le calette di Marina di Ragusa",
+        description: "Giornata alla scoperta delle calette nascoste.",
+        price: 80,
+        duration: "1 giorno",
+        iconKey: "boat",
+        tags: ["Avventura", "Mare"],
+        highlights: ["Pranzo a bordo", "Attrezzatura snorkeling", "Soste bagno"],
+      },
     ]);
     console.log("🔮 Esperienze inserite.");
 
