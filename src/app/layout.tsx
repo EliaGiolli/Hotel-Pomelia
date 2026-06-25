@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ThemeRegistry from "@/components/ThemeRegistry";
+import ThemeRegistry from "@/shared/components/ui/ThemeRegistry";
 import Navbar from "@/shared/components/ui/Navbar";
 import Footer from "@/shared/components/ui/Footer";
 import "./globals.css";
