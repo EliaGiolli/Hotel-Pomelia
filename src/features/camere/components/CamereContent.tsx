@@ -17,7 +17,7 @@ import Room from "@/core/models/Room";
 
 export default async function CamereContent() {
   await dbConnect();
-  const rooms = await Room.find({ available: true }).lean();
+  const rooms = await Room.find({ available: true }).lean() || [];
 
   return (
     <Box component="article">

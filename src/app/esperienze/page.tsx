@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import EsperienzeContent from "@/features/esperienze/components/EsperienzeContent";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Esperienze & Territorio",
   description:

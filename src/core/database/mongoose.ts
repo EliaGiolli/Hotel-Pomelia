@@ -15,7 +15,11 @@ declare global {
 const cached: MongooseCache = globalThis.__mongooseCache ?? { conn: null, promise: null };
 globalThis.__mongooseCache = cached;
 
-export default async function dbConnect(): Promise<mongoose.Connection> {
+export default async function dbConnect(): Promise<mongoose.Connection | null> {
+  if (process.env.NEXT_PHASE === "phase-production-build") {
+    return null;
+  }
+
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {

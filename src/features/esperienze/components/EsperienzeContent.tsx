@@ -26,7 +26,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default async function EsperienzeContent() {
   await dbConnect();
-  const experiences = await Experience.find({}).lean();
+  const experiences = await Experience.find({}).lean() || [];
 
   return (
     <Box component="article">

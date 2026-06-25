@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import RistorazioneContent from "@/features/ristorazione/components/RistorazioneContent";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Ristorazione & Orto Biologico",
   description:

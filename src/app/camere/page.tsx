@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import CamereContent from "@/features/camere/components/CamereContent";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Camere & Suite",
   description:

@@ -14,7 +14,7 @@ import Restaurant from "@/core/models/Restaurant";
 
 export default async function RistorazioneContent() {
   await dbConnect();
-  const menuItems = await Restaurant.find({}).lean();
+  const menuItems = await Restaurant.find({}).lean() || [];
   return (
     <Box component="article">
       <Box
