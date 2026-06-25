@@ -11,13 +11,10 @@ export const bookingFormSchema = z
       .min(2, "Il nome deve contenere almeno 2 caratteri")
       .max(100, "Nome troppo lungo"),
     guestEmail: z.string().email("Inserisci un indirizzo email valido"),
-    checkIn: z.coerce.date({ required_error: "La data di arrivo è obbligatoria" }),
-    checkOut: z.coerce.date({ required_error: "La data di partenza è obbligatoria" }),
+    checkIn: z.date({ error: "La data di arrivo è obbligatoria" }),
+    checkOut: z.date({ error: "La data di partenza è obbligatoria" }),
     roomType: z.string().min(1, "Seleziona una tipologia di camera"),
-    boardType: z.enum(BOARD_TYPES, {
-      required_error: "Seleziona un regime di pensione",
-      invalid_type_error: "Regime di pensione non valido",
-    }),
+    boardType: z.enum(BOARD_TYPES, { error: "Seleziona un regime di pensione" }),
     notes: z.string().max(1000, "Le note non possono superare i 1000 caratteri").optional(),
   })
   .refine((d) => d.checkIn >= today(), {

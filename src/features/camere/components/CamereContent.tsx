@@ -12,6 +12,7 @@ import Divider from "@mui/material/Divider";
 import PeopleIcon from "@mui/icons-material/People";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { BookingTriggerButton } from "./BookingTriggerButton";
 
 const rooms = [
   {
@@ -220,17 +221,8 @@ export default function CamereContent() {
                         </Grid>
                       ))}
                     </Grid>
-                    <Button
-                      component={NextLink}
-                      href={`/prenota?room=${room.slug}`}
-                      variant="contained"
-                      color="secondary"
-                      endIcon={<ArrowForwardIcon />}
-                      fullWidth
-                      aria-label={`Prenota ${room.name}`}
-                    >
-                      Prenota questa camera
-                    </Button>
+                    
+                    <BookingTriggerButton roomName={room.name} />
                   </CardContent>
                 </Card>
               </Grid>
