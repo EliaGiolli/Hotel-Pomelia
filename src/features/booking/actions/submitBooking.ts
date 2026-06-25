@@ -1,6 +1,6 @@
 "use server";
 
-import dbConnect from "@/lib/mongoose";
+import dbConnect from "../../../core/database/mongoose";
 import Booking from "@/core/models/Booking";
 import { bookingFormSchema } from "@/features/booking/schemas/bookingFormSchema";
 

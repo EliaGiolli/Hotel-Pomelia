@@ -3,7 +3,7 @@ import { DateStep } from "./steps/DateStep";
 import { RoomStep } from "./steps/RoomStep";
 import { BoardStep } from "./steps/BoardStep";
 import { SummaryStep } from "./steps/SummaryStep";
-import dbConnect from "@/lib/mongoose";
+import dbConnect from "../../../core/database/mongoose";
 import Room, { IRoom } from "@/core/models/Room";
 
 interface BookingFormProps {

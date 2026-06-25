@@ -14,7 +14,7 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import WavesIcon from "@mui/icons-material/Waves";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import dbConnect from "@/lib/mongoose";
+import dbConnect from "../../../core/database/mongoose";
 import Experience from "@/core/models/Experience";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -126,7 +126,7 @@ export default async function EsperienzeContent() {
                       {exp.description}
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
-                      {exp.tags.map((tag) => (
+                      {exp.tags.map((tag: string) => (
                         <Chip key={tag} label={tag} size="small" sx={{ backgroundColor: "#FAF7F0" }} />
                       ))}
                     </Box>
@@ -163,9 +163,8 @@ export default async function EsperienzeContent() {
             carrozzine anfibie da noleggio gratuito e assistenti dedicati rendono il mare
             accessibile a tutti, senza compromessi. La Sicilia è per tutti.
           </Typography>
+          <NextLink href="/prenota" style={{ textDecoration: "none" }}>
           <Button
-            component={NextLink}
-            href="/prenota"
             variant="contained"
             color="primary"
             size="large"
@@ -175,6 +174,7 @@ export default async function EsperienzeContent() {
           >
             Prenota il tuo soggiorno
           </Button>
+          </NextLink>
         </Container>
       </Box>
     </Box>
