@@ -23,7 +23,9 @@ export function DateStep() {
           <DatePicker
             label="Data di arrivo"
             value={field.value ? dayjs(field.value) : null}
-            onChange={(d) => field.onChange(d?.toDate())}
+            onChange={(d) =>
+              field.onChange(d ? new Date(Date.UTC(d.year(), d.month(), d.date())) : undefined)
+            }
             disablePast
             slotProps={{
               textField: {
@@ -43,7 +45,9 @@ export function DateStep() {
           <DatePicker
             label="Data di partenza"
             value={field.value ? dayjs(field.value) : null}
-            onChange={(d) => field.onChange(d?.toDate())}
+            onChange={(d) =>
+              field.onChange(d ? new Date(Date.UTC(d.year(), d.month(), d.date())) : undefined)
+            }
             disablePast
             slotProps={{
               textField: {
