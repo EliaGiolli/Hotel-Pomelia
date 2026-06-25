@@ -14,63 +14,18 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import WavesIcon from "@mui/icons-material/Waves";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
+import { prisma } from "@/core/database/prisma";
 
-const experiences = [
-  {
-    icon: <HikingIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Trekking negli Iblei",
-    subtitle: "Natura guidata",
-    description:
-      "Alessandro vi accompagna lungo sentieri inediti degli altipiani iblei: carrubbeti centenari, cave di pietra abbandonata, panorami sul mare di Donnalucata. Difficoltà bassa-media, adatto a famiglie. Durata 3–4 ore.",
-    tags: ["Natura", "Famiglia", "Guidato"],
-    difficulty: "Facile–Media",
-    duration: "3–4 ore",
-    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Trekking negli altipiani iblei con carrubeti centenari e paesaggi siciliani",
-    highlight: false,
-  },
-  {
-    icon: <OilBarrelIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Olio DOP a Chiaramonte Gulfi",
-    subtitle: "Degustazione guidata",
-    description:
-      'Chiaramonte Gulfi, la "Milano del Sud", è il cuore della produzione di olio Tonda Iblea DOP. Vi portiamo nel migliore frantoio familiare per vedere la molitura, degustare in purezza e acquistare direttamente dal produttore.',
-    tags: ["Enogastronomia", "Cultura", "Shopping"],
-    difficulty: "Nessuna",
-    duration: "Mezza giornata",
-    image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Degustazione di olio extravergine Tonda Iblea DOP a Chiaramonte Gulfi",
-    highlight: false,
-  },
-  {
-    icon: <DirectionsCarIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Giornata ad Agrigento",
-    subtitle: "Patrimonio UNESCO",
-    description:
-      "La Valle dei Templi è patrimonio dell'UNESCO e dista 90 km. Vi organizziamo il transfer condiviso in van elettrico, la guida certificata e l'ingresso. Un'esperienza che unisce grandezza greca e Sicilia profonda.",
-    tags: ["Cultura", "Patrimonio UNESCO", "Transfer"],
-    difficulty: "Nessuna",
-    duration: "Giornata intera",
-    image: "https://images.unsplash.com/photo-1601465747956-a85bf0b21ce7?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Tempio della Concordia nella Valle dei Templi ad Agrigento, patrimonio UNESCO",
-    highlight: false,
-  },
-  {
-    icon: <WavesIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Spiaggia Privata Accessibile",
-    subtitle: "Barrier-free certificata",
-    description:
-      "La nostra spiaggia privata sul Mediterraneo è certificata per l'accessibilità totale: pedane, carrozzine anfibie, assistenti formati e ombrelloni regolabili. Il mare è un diritto, non un privilegio.",
-    tags: ["Accessibilità", "Mare", "Certificata"],
-    difficulty: "Accessibile a tutti",
-    duration: "Libero",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Spiaggia barrier-free accessibile con pedane sul mare cristallino siciliano",
-    highlight: true,
-  },
-];
+const iconMap: Record<string, React.ReactNode> = {
+  hiking: <HikingIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+  oil_barrel: <OilBarrelIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+  car: <DirectionsCarIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+  waves: <WavesIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+};
 
-export default function EsperienzeContent() {
+export default async function EsperienzeContent() {
+  const experiences = await prisma.experience.findMany();
+
   return (
     <Box component="article">
       <Box
@@ -122,7 +77,7 @@ export default function EsperienzeContent() {
           </Typography>
           <Grid container spacing={4}>
             {experiences.map((exp) => (
-              <Grid key={exp.title} size={{ xs: 12, md: 6 }}>
+              <Grid key={exp.id} size={{ xs: 12, md: 6 }}>
                 <Card
                   sx={{
                     height: "100%",
@@ -158,7 +113,7 @@ export default function EsperienzeContent() {
                     )}
                   </Box>
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Box sx={{ mb: 2 }}>{exp.icon}</Box>
+                    <Box sx={{ mb: 2 }}>{iconMap[exp.iconKey] ?? null}</Box>
                     <Typography variant="overline" sx={{ color: "#00A896", fontWeight: 700 }}>
                       {exp.subtitle}
                     </Typography>

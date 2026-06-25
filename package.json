@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "prisma db push",
-    "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+    "db:push": "npx prisma db push",
+    "db:generate": "npx prisma generate",
+    "db:seed": "npx prisma db seed",
+    "db:studio": "npx prisma studio"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -20,7 +21,7 @@
     "@mui/material": "^6.5.0",
     "@mui/material-nextjs": "^6.5.0",
     "@mui/x-date-pickers": "^7.28.3",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^7.8.0",
     "dayjs": "^1.11.13",
     "next": "^16.2.9",
     "react": "^19.2.7",
@@ -30,12 +31,13 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@prisma/config": "^7.8.0",
     "@types/node": "^20.17.12",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.2.9",
-    "prisma": "^5.22.0",
+    "prisma": "^7.8.0",
     "typescript": "^5.7.3"
   }
 }

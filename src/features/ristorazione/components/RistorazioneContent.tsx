@@ -12,65 +12,20 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import GrassIcon from "@mui/icons-material/Grass";
 import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
+import { prisma } from "@/core/database/prisma";
 
-const dishes = [
-  {
-    name: "Maccu di Favi Ragusano",
-    description:
-      "La zuppa della tradizione iblea: fave secche di produzione propria, finocchietto selvatico raccolto nei campi circostanti, olio extravergine di oliva locale. Una ricetta tramandata da generazioni che racconta il territorio.",
-    origin: "Tradizione Iblea",
-    season: "Autunno · Inverno",
-    image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Maccu di favi ragusano con finocchietto e olio extravergine ibleo",
-  },
-  {
-    name: "Schiaccia Ragusana",
-    description:
-      "Focaccia ricca e saporita ripiena con tuma fresca, acciughe e cipolla caramellata. La nostra versione utilizza farina di grano antico Tumminia macinata a pietra da mulino locale, lievitazione naturale di 48 ore.",
-    origin: "Ragusa Ibla",
-    season: "Tutto l'anno",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "Schiaccia ragusana con tuma fresca e acciughe locali su grano Tumminia",
-  },
-  {
-    name: "'Mpanatigghi",
-    description:
-      "Il dolce più misterioso e amato di Ragusa: pasta frolla con ripieno di carne di manzo macinata, cioccolato fondente, mandorle di Avola e cannella. Un incontro arabo-normanno sopravvissuto intatto nei secoli.",
-    origin: "Modica · Ragusa",
-    season: "Dicembre · Pasqua",
-    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&auto=format&fit=crop&q=80",
-    imageAlt: "'Mpanatigghi: dolci tipici ragusani con cioccolato e mandorle di Avola",
-  },
-];
+const workshopIconMap: Record<string, React.ReactNode> = {
+  chef: <LocalDiningIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+  garden: <GrassIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+  wine: <EmojiNatureIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
+};
 
-const workshops = [
-  {
-    icon: <LocalDiningIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Workshop di Cucina Siciliana",
-    description:
-      "Tre ore con la chef Chiara tra i profumi dell'orto. Si impara a fare la pasta fresca iblea, il pane di casa e almeno uno dei nostri dolci tradizionali. Incluse degustazione e ricette da portare a casa.",
-    duration: "3 ore",
-    maxGuests: "8 persone",
-  },
-  {
-    icon: <GrassIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Tour dell'Orto in Permacultura",
-    description:
-      "Alessandro vi guida nella scoperta dell'orto sinergico: le piante compagne, il compostaggio, i sistemi di raccolta dell'acqua piovana. Un modo diverso di guardare il cibo e la terra.",
-    duration: "1,5 ore",
-    maxGuests: "12 persone",
-  },
-  {
-    icon: <EmojiNatureIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-    title: "Degustazione di Oli e Vini Iblei",
-    description:
-      "Serata di abbinamento con produttori locali: olio monocultivar Tonda Iblea DOP, vini Cerasuolo di Vittoria DOCG e Nero d'Avola. Ogni prodotto ha una storia e un territorio da raccontare.",
-    duration: "2 ore",
-    maxGuests: "16 persone",
-  },
-];
+export default async function RistorazioneContent() {
+  const [dishes, workshops] = await Promise.all([
+    prisma.dish.findMany(),
+    prisma.workshop.findMany(),
+  ]);
 
-export default function RistorazioneContent() {
   return (
     <Box component="article">
       <Box
@@ -151,7 +106,7 @@ export default function RistorazioneContent() {
           </Typography>
           <Grid container spacing={4}>
             {dishes.map((dish) => (
-              <Grid key={dish.name} size={{ xs: 12, md: 4 }}>
+              <Grid key={dish.id} size={{ xs: 12, md: 4 }}>
                 <Card component="article" sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
                   <Box sx={{ position: "relative", height: 220 }}>
                     <Image
@@ -194,10 +149,10 @@ export default function RistorazioneContent() {
           </Typography>
           <Grid container spacing={4}>
             {workshops.map((ws) => (
-              <Grid key={ws.title} size={{ xs: 12, md: 4 }}>
+              <Grid key={ws.id} size={{ xs: 12, md: 4 }}>
                 <Card sx={{ height: "100%", p: 1 }}>
                   <CardContent>
-                    <Box sx={{ mb: 2 }}>{ws.icon}</Box>
+                    <Box sx={{ mb: 2 }}>{workshopIconMap[ws.iconKey] ?? null}</Box>
                     <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
                       {ws.title}
                     </Typography>
@@ -206,7 +161,7 @@ export default function RistorazioneContent() {
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1.5 }}>
                       <Chip label={ws.duration} size="small" color="secondary" variant="outlined" />
-                      <Chip label={`Max ${ws.maxGuests}`} size="small" variant="outlined" />
+                      <Chip label={`Max ${ws.maxGuests} persone`} size="small" variant="outlined" />
                     </Box>
                   </CardContent>
                 </Card>
