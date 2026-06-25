@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export const BOARD_TYPES = ["Colazione", "Mezza Pensione", "Pensione Completa"] as const;
 
-const today = () => new Date(new Date().toDateString());
+const today = () => {
+  const d = new Date();
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+};
 
 export const bookingFormSchema = z
   .object({

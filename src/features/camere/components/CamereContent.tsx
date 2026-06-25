@@ -7,104 +7,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import PeopleIcon from "@mui/icons-material/People";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { BookingTriggerButton } from "./BookingTriggerButton";
+import { prisma } from "@/core/database/prisma";
 
-const rooms = [
-  {
-    name: "Suite Gelsomino",
-    slug: "suite-gelsomino",
-    capacity: 2,
-    size: "52 m²",
-    description:
-      "La nostra suite più esclusiva: ampio terrazzo privato con vista sugli ulivi e il mare all'orizzonte. Letto king-size con baldacchino artigianale, vasca freestanding in terracotta locale, arredi di recupero firmati da maestro Salvatore Cagliostro di Ragusa.",
-    features: [
-      "Terrazzo privato con vista panoramica",
-      "Letto king-size con baldacchino",
-      "Vasca freestanding in terracotta locale",
-      "Arredi di recupero artigianali",
-      "Lenzuola in cotone biologico GOTS",
-      "Minibar con prodotti biologici locali",
-      "Wi-Fi ad alta velocità",
-      "Smart TV 55\" con streaming",
-    ],
-    image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&auto=format&fit=crop&q=80",
-    imageAlt: "Suite Gelsomino: letto king-size con baldacchino artigianale e terrazzo panoramico",
-    badge: "Suite Premium",
-    badgeColor: "#F4C430",
-  },
-  {
-    name: "Camera Mandorlo",
-    slug: "camera-mandorlo",
-    capacity: 2,
-    size: "28 m²",
-    description:
-      "Camera doppia con vista sul giardino di mandorli. Atmosfera intima e naturale con pareti in calce bianca, pavimento in cotto ibleo fatto a mano e lenzuola in canapa certificata GOTS. Perfetta per coppie che cercano autenticità.",
-    features: [
-      "Vista giardino di mandorli",
-      "Pavimento in cotto ibleo artigianale",
-      "Pareti in calce naturale bianca",
-      "Lenzuola in canapa biologica GOTS",
-      "Arredi di recupero",
-      "Doccia walk-in con pietra di Comiso",
-      "Wi-Fi gratuito",
-    ],
-    image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80",
-    imageAlt: "Camera Mandorlo: pavimento in cotto ibleo artigianale e vista sul giardino",
-    badge: "Classic",
-    badgeColor: "#00A896",
-  },
-  {
-    name: "Familiare Carruba",
-    slug: "familiare-carruba",
-    capacity: 4,
-    size: "45 m²",
-    description:
-      "Soluzione ideale per famiglie: due camere comunicanti, due bagni completi, un angolo salotto con divano letto per bambini. Pavimenti in graniglia di Ragusa, soffitto a volta originale, colori della terra siciliana. Baby kit biologico incluso.",
-    features: [
-      "Due camere comunicanti",
-      "Due bagni completi",
-      "Angolo salotto con divano letto",
-      "Pavimento in graniglia di Ragusa",
-      "Soffitto a volta originale",
-      "Baby kit biologico incluso",
-      "Lenzuola in cotone biologico GOTS",
-      "Frigorifero con snack biologici",
-    ],
-    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800&auto=format&fit=crop&q=80",
-    imageAlt: "Camera Familiare Carruba con soffitto a volta e spazio per tutta la famiglia",
-    badge: "Family",
-    badgeColor: "#C85C40",
-  },
-  {
-    name: "Junior Suite Zagara",
-    slug: "junior-suite-zagara",
-    capacity: 2,
-    size: "38 m²",
-    description:
-      "Junior suite per coppie con patio privato fiorito di zagare. Ampio letto queen, scrittoio artigianale in legno di carrubo recuperato, vasca doppia. L'aroma degli agrumi al mattino è incluso nel prezzo.",
-    features: [
-      "Patio privato fiorito",
-      "Letto queen con testiera in legno carrubo",
-      "Vasca doppia",
-      "Scrittoio in legno di recupero",
-      "Lenzuola in cotone biologico GOTS",
-      "Prodotti da bagno biologici",
-      "Accappatoi in cotone equo-solidale",
-      "Wi-Fi gratuito",
-    ],
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&auto=format&fit=crop&q=80",
-    imageAlt: "Junior Suite Zagara con patio privato fiorito e letto queen artigianale",
-    badge: "Junior Suite",
-    badgeColor: "#00A896",
-  },
-];
+export default async function CamereContent() {
+  const rooms = await prisma.room.findMany();
 
-export default function CamereContent() {
   return (
     <Box component="article">
       <Box
@@ -158,7 +70,7 @@ export default function CamereContent() {
           </Typography>
           <Grid container spacing={4}>
             {rooms.map((room) => (
-              <Grid key={room.slug} size={{ xs: 12, md: 6 }}>
+              <Grid key={room.id} size={{ xs: 12, md: 6 }}>
                 <Card
                   sx={{
                     height: "100%",
@@ -170,23 +82,11 @@ export default function CamereContent() {
                 >
                   <Box sx={{ position: "relative", height: 260 }}>
                     <Image
-                      src={room.image}
-                      alt={room.imageAlt}
+                      src={room.images[0]}
+                      alt={room.name}
                       fill
                       sizes="(max-width:900px) 100vw, 50vw"
                       style={{ objectFit: "cover" }}
-                    />
-                    <Chip
-                      label={room.badge}
-                      size="small"
-                      sx={{
-                        position: "absolute",
-                        top: 12,
-                        left: 12,
-                        backgroundColor: room.badgeColor,
-                        color: "#1A1A2E",
-                        fontWeight: 700,
-                      }}
                     />
                   </Box>
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
@@ -194,12 +94,9 @@ export default function CamereContent() {
                       <Typography variant="h5" component="h3" sx={{ fontWeight: 700 }}>
                         {room.name}
                       </Typography>
-                      <Box sx={{ display: "flex", gap: 1.5, color: "text.secondary", flexShrink: 0, ml: 1 }}>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                          <PeopleIcon sx={{ fontSize: 16 }} aria-hidden="true" />
-                          <Typography variant="caption">{room.capacity}</Typography>
-                        </Box>
-                        <Typography variant="caption">{room.size}</Typography>
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, color: "text.secondary", flexShrink: 0, ml: 1 }}>
+                        <PeopleIcon sx={{ fontSize: 16 }} aria-hidden="true" />
+                        <Typography variant="caption">{room.capacity}</Typography>
                       </Box>
                     </Box>
                     <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
@@ -221,7 +118,7 @@ export default function CamereContent() {
                         </Grid>
                       ))}
                     </Grid>
-                    
+
                     <BookingTriggerButton roomName={room.name} />
                   </CardContent>
                 </Card>

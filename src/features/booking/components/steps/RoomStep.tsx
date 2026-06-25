@@ -11,14 +11,11 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { BookingFormValues } from "@/features/booking/schemas/bookingFormSchema";
 
-const ROOM_OPTIONS = [
-  "Suite Gelsomino",
-  "Camera Mandorlo",
-  "Familiare Carruba",
-  "Junior Suite Zagara",
-] as const;
+interface RoomStepProps {
+  roomNames: string[];
+}
 
-export function RoomStep() {
+export function RoomStep({ roomNames }: RoomStepProps) {
   const { control, formState: { errors } } = useFormContext<BookingFormValues>();
 
   return (
@@ -33,12 +30,12 @@ export function RoomStep() {
           <FormControl error={!!errors.roomType} required>
             <FormLabel>Tipologia di camera</FormLabel>
             <RadioGroup {...field}>
-              {ROOM_OPTIONS.map((room) => (
+              {roomNames.map((name) => (
                 <FormControlLabel
-                  key={room}
-                  value={room}
+                  key={name}
+                  value={name}
                   control={<Radio />}
-                  label={room}
+                  label={name}
                 />
               ))}
             </RadioGroup>
