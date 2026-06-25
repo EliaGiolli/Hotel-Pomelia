@@ -109,7 +109,7 @@ export default async function CamereContent() {
                       Dotazioni principali
                     </Typography>
                     <Grid container spacing={0.5} sx={{ mt: 1, mb: 3 }}>
-                      {room.features.map((feature) => (
+                      {room.features.map((feature: string) => (
                         <Grid key={feature} size={{ xs: 12, sm: 6 }}>
                           <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
                             <CheckCircleOutlineIcon sx={{ fontSize: 14, color: "#00A896", flexShrink: 0 }} aria-hidden="true" />
@@ -139,16 +139,11 @@ export default async function CamereContent() {
             Scrivici nella nota della prenotazione e ti aiuteremo a trovare la soluzione
             perfetta per il tuo soggiorno.
           </Typography>
-          <Button
-            component={NextLink}
-            href="/prenota"
-            variant="contained"
-            color="secondary"
-            size="large"
-            endIcon={<ArrowForwardIcon />}
-          >
-            Richiedi disponibilità
-          </Button>
+          <NextLink href="/prenota" style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="secondary" size="large" endIcon={<ArrowForwardIcon />}>
+              Richiedi disponibilità
+            </Button>
+          </NextLink>
         </Container>
       </Box>
     </Box>

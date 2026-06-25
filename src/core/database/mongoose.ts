@@ -6,12 +6,14 @@ if (!MONGODB_URI) {
   throw new Error("DATABASE_URL non definita nelle variabili d'ambiente");
 }
 
+type MongooseCache = { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
+
 declare global {
-  var mongoose: { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
+  var __mongooseCache: MongooseCache | undefined;
 }
 
-const cached = globalThis.mongoose ?? { conn: null, promise: null };
-globalThis.mongoose = cached;
+const cached: MongooseCache = globalThis.__mongooseCache ?? { conn: null, promise: null };
+globalThis.__mongooseCache = cached;
 
 export default async function dbConnect(): Promise<mongoose.Connection> {
   if (cached.conn) return cached.conn;

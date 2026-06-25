@@ -9,23 +9,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import GrassIcon from "@mui/icons-material/Grass";
-import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
-import dbConnect from "@/lib/mongoose";
+import dbConnect from "../../../core/database/mongoose";
 import Restaurant from "@/core/models/Restaurant";
-
-const workshopIconMap: Record<string, React.ReactNode> = {
-  chef: <LocalDiningIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-  garden: <GrassIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-  wine: <EmojiNatureIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
-};
 
 export default async function RistorazioneContent() {
   await dbConnect();
   const menuItems = await Restaurant.find({}).lean();
-  const workshops: never[] = []; // TODO: creare modello Workshop Mongoose
-
   return (
     <Box component="article">
       <Box
@@ -126,53 +115,6 @@ export default async function RistorazioneContent() {
         </Container>
       </Box>
 
-      <Box component="section" aria-labelledby="workshops-heading" sx={{ py: { xs: 6, md: 10 }, backgroundColor: "#FAF7F0" }}>
-        <Container maxWidth="lg">
-          <Typography
-            variant="overline"
-            sx={{ color: "#00A896", fontWeight: 700, letterSpacing: "0.12em", display: "block", textAlign: "center" }}
-          >
-            Esperienze culinarie
-          </Typography>
-          <Typography id="workshops-heading" variant="h2" sx={{ mt: 1, mb: 6, textAlign: "center", fontSize: { xs: "1.6rem", md: "2.2rem" } }}>
-            Workshop e degustazioni
-          </Typography>
-          <Grid container spacing={4}>
-            {workshops.map((ws) => (
-              <Grid key={ws.id} size={{ xs: 12, md: 4 }}>
-                <Card sx={{ height: "100%", p: 1 }}>
-                  <CardContent>
-                    <Box sx={{ mb: 2 }}>{workshopIconMap[ws.iconKey] ?? null}</Box>
-                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
-                      {ws.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
-                      {ws.description}
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 1.5 }}>
-                      <Chip label={ws.duration} size="small" color="secondary" variant="outlined" />
-                      <Chip label={`Max ${ws.maxGuests} persone`} size="small" variant="outlined" />
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-          <Box sx={{ textAlign: "center", mt: 6 }}>
-            <Button
-              component={NextLink}
-              href="/prenota"
-              variant="contained"
-              color="secondary"
-              size="large"
-              endIcon={<ArrowForwardIcon />}
-              aria-label="Prenota un soggiorno con workshop di cucina siciliana incluso"
-            >
-              Prenota e scegli il tuo workshop
-            </Button>
-          </Box>
-        </Container>
-      </Box>
     </Box>
   );
 }
