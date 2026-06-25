@@ -14,7 +14,8 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import WavesIcon from "@mui/icons-material/Waves";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import { prisma } from "@/core/database/prisma";
+import dbConnect from "@/lib/mongoose";
+import Experience from "@/core/models/Experience";
 
 const iconMap: Record<string, React.ReactNode> = {
   hiking: <HikingIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
@@ -24,7 +25,8 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default async function EsperienzeContent() {
-  const experiences = await prisma.experience.findMany();
+  await dbConnect();
+  const experiences = await Experience.find({}).lean();
 
   return (
     <Box component="article">
@@ -77,7 +79,7 @@ export default async function EsperienzeContent() {
           </Typography>
           <Grid container spacing={4}>
             {experiences.map((exp) => (
-              <Grid key={exp.id} size={{ xs: 12, md: 6 }}>
+              <Grid key={String(exp._id)} size={{ xs: 12, md: 6 }}>
                 <Card
                   sx={{
                     height: "100%",

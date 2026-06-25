@@ -7,6 +7,8 @@ export interface IRoom {
   description?: string;
   images: string[];
   available: boolean;
+  capacity: number;
+  features: string[];
   createdAt: Date;
 }
 
@@ -17,6 +19,8 @@ const RoomSchema = new Schema<IRoom>({
   description: { type: String },
   images: { type: [String], default: [] },
   available: { type: Boolean, default: true },
+  capacity: { type: Number, required: true, default: 2 },
+  features: { type: [String], default: [] },
   createdAt: { type: Date, default: Date.now },
 });
 

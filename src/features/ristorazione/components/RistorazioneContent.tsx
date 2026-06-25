@@ -12,7 +12,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import GrassIcon from "@mui/icons-material/Grass";
 import EmojiNatureIcon from "@mui/icons-material/EmojiNature";
-import { prisma } from "@/core/database/prisma";
+import dbConnect from "@/lib/mongoose";
+import Restaurant from "@/core/models/Restaurant";
 
 const workshopIconMap: Record<string, React.ReactNode> = {
   chef: <LocalDiningIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
@@ -21,10 +22,9 @@ const workshopIconMap: Record<string, React.ReactNode> = {
 };
 
 export default async function RistorazioneContent() {
-  const [dishes, workshops] = await Promise.all([
-    prisma.dish.findMany(),
-    prisma.workshop.findMany(),
-  ]);
+  await dbConnect();
+  const menuItems = await Restaurant.find({}).lean();
+  const workshops: never[] = []; // TODO: creare modello Workshop Mongoose
 
   return (
     <Box component="article">
@@ -105,28 +105,18 @@ export default async function RistorazioneContent() {
             Identità culinaria ragusana
           </Typography>
           <Grid container spacing={4}>
-            {dishes.map((dish) => (
-              <Grid key={dish.id} size={{ xs: 12, md: 4 }}>
+            {menuItems.map((item) => (
+              <Grid key={String(item._id)} size={{ xs: 12, md: 4 }}>
                 <Card component="article" sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                  <Box sx={{ position: "relative", height: 220 }}>
-                    <Image
-                      src={dish.image}
-                      alt={dish.imageAlt}
-                      fill
-                      sizes="(max-width:900px) 100vw, 33vw"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </Box>
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
                     <Box sx={{ display: "flex", gap: 1, mb: 1.5, flexWrap: "wrap" }}>
-                      <Chip label={dish.origin} size="small" sx={{ backgroundColor: "#FAF7F0", fontWeight: 600 }} />
-                      <Chip label={dish.season} size="small" variant="outlined" />
+                      <Chip label={item.category} size="small" sx={{ backgroundColor: "#FAF7F0", fontWeight: 600 }} />
                     </Box>
                     <Typography component="h3" variant="h5" gutterBottom sx={{ fontWeight: 700 }}>
-                      {dish.name}
+                      {item.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.85 }}>
-                      {dish.description}
+                      {item.description}
                     </Typography>
                   </CardContent>
                 </Card>

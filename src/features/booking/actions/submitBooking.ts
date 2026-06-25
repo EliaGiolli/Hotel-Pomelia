@@ -1,6 +1,7 @@
 "use server";
 
-import { prisma } from "@/core/database/prisma";
+import dbConnect from "@/lib/mongoose";
+import Booking from "@/core/models/Booking";
 import { bookingFormSchema } from "@/features/booking/schemas/bookingFormSchema";
 
 export type BookingActionState =
@@ -18,11 +19,19 @@ export async function submitBooking(data: unknown): Promise<BookingActionState> 
     };
   }
 
-  const { guestName, guestEmail, checkIn, checkOut, roomType, boardType, notes } = parsed.data;
+  const { guestName, guestEmail, checkIn, checkOut, roomType, totalPrice } = parsed.data as typeof parsed.data & { totalPrice?: number };
 
   try {
-    await prisma.bookingRequest.create({
-      data: { guestName, guestEmail, checkIn, checkOut, roomType, boardType, notes },
+    await dbConnect();
+
+    await Booking.create({
+      roomId: roomType, // TODO: aggiornare bookingFormSchema per passare un ObjectId reale
+      guestName,
+      guestEmail,
+      checkIn: new Date(checkIn),
+      checkOut: new Date(checkOut),
+      totalPrice: totalPrice ?? 0, // TODO: calcolare il prezzo reale lato server
+      status: "pending",
     });
 
     return { success: true };

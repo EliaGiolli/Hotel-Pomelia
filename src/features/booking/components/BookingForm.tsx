@@ -3,14 +3,16 @@ import { DateStep } from "./steps/DateStep";
 import { RoomStep } from "./steps/RoomStep";
 import { BoardStep } from "./steps/BoardStep";
 import { SummaryStep } from "./steps/SummaryStep";
-import { prisma } from "@/core/database/prisma";
+import dbConnect from "@/lib/mongoose";
+import Room, { IRoom } from "@/core/models/Room";
 
 interface BookingFormProps {
   initialRoomType?: string;
 }
 
 export async function BookingForm({ initialRoomType }: BookingFormProps) {
-  const rooms = await prisma.room.findMany({ select: { name: true } });
+  await dbConnect();
+  const rooms = await Room.find<IRoom>({}, { name: 1 }).lean();
   const roomNames = rooms.map((r) => r.name);
 
   return (

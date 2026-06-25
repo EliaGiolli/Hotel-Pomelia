@@ -12,10 +12,12 @@ import PeopleIcon from "@mui/icons-material/People";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { BookingTriggerButton } from "./BookingTriggerButton";
-import { prisma } from "@/core/database/prisma";
+import dbConnect from "@/core/database/mongoose";
+import Room from "@/core/models/Room";
 
 export default async function CamereContent() {
-  const rooms = await prisma.room.findMany();
+  await dbConnect();
+  const rooms = await Room.find({ available: true }).lean();
 
   return (
     <Box component="article">
@@ -70,7 +72,7 @@ export default async function CamereContent() {
           </Typography>
           <Grid container spacing={4}>
             {rooms.map((room) => (
-              <Grid key={room.id} size={{ xs: 12, md: 6 }}>
+              <Grid key={String(room._id)} size={{ xs: 12, md: 6 }}>
                 <Card
                   sx={{
                     height: "100%",
