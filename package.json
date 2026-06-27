@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:seed": "npx tsx --env-file=.env.local scripts/seed.ts"
+    "db:seed": "npx tsx --env-file=.env.local scripts/seed.ts",
+    "test": "node node_modules/vitest/dist/cli.js run",
+    "test:watch": "node node_modules/vitest/dist/cli.js",
+    "test:ui": "node node_modules/vitest/dist/cli.js --ui"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -30,12 +33,22 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20.17.12",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.3",
     "dotenv": "^17.4.2",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.2.9",
-    "typescript": "^5.7.3"
+    "jsdom": "^29.1.1",
+    "mongodb-memory-server": "^11.2.0",
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.9"
   }
 }

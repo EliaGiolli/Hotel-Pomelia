@@ -13,11 +13,11 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { BookingTriggerButton } from "./BookingTriggerButton";
 import dbConnect from "@/core/database/mongoose";
-import Room from "@/core/models/Room";
+import { getRooms } from "@/core/queries/getRooms";
 
 export default async function CamereContent() {
   await dbConnect();
-  const rooms = await Room.find({ available: true }).lean() || [];
+  const rooms = await getRooms();
 
   return (
     <Box component="article">
@@ -74,6 +74,7 @@ export default async function CamereContent() {
             {rooms.map((room) => (
               <Grid key={String(room._id)} size={{ xs: 12, md: 6 }}>
                 <Card
+                  className="room-card"
                   sx={{
                     height: "100%",
                     display: "flex",
