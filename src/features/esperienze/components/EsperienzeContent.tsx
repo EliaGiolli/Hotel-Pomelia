@@ -90,14 +90,16 @@ export default async function EsperienzeContent() {
                     "&:hover": { boxShadow: "0 8px 32px rgba(0,0,0,0.12)" },
                   }}
                 >
-                  <Box sx={{ position: "relative", height: 240 }}>
-                    <Image
-                      src={exp.image}
-                      alt={exp.imageAlt}
-                      fill
-                      sizes="(max-width:900px) 100vw, 50vw"
-                      style={{ objectFit: "cover" }}
-                    />
+                  <Box sx={{ position: "relative", height: 240, backgroundColor: "#1A1A2E" }}>
+                    {exp.image && (
+                      <Image
+                        src={exp.image}
+                        alt={exp.imageAlt ?? exp.title}
+                        fill
+                        sizes="(max-width:900px) 100vw, 50vw"
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
                     {exp.highlight && (
                       <Chip
                         icon={<AccessibleIcon sx={{ fontSize: 16, color: "#FFFFFF !important" }} aria-hidden="true" />}
