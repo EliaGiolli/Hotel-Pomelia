@@ -14,8 +14,8 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import WavesIcon from "@mui/icons-material/Waves";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import dbConnect from "../../../core/database/mongoose";
-import Experience from "@/core/models/Experience";
+import dbConnect from "@/core/database/mongoose";
+import { getExperiences } from "@/core/queries/getExperiences";
 
 const iconMap: Record<string, React.ReactNode> = {
   hiking: <HikingIcon sx={{ fontSize: 32, color: "#F4C430" }} aria-hidden="true" />,
@@ -26,7 +26,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default async function EsperienzeContent() {
   await dbConnect();
-  const experiences = await Experience.find({}).lean() || [];
+  const experiences = await getExperiences();
 
   return (
     <Box component="article">
