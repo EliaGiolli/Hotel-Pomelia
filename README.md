@@ -537,7 +537,7 @@ npm install
 Create the `.env.local` file in the project root:
 
 ```env
-DATABASE_URL=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/hotel-pomelia?retryWrites=true&w=majority
+DATABASE_URL=
 ```
 
 > This variable is read at module load in `src/core/database/mongoose.ts`. If absent, the server terminates immediately with an explicit `Error` before responding to any request.
