@@ -17,6 +17,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
     globals: true,
-    exclude: ["node_modules", ".next", "dist"],
+    // tests-e2e/ usa Playwright (@playwright/test) — incompatibile con Vitest
+    exclude: ["node_modules", ".next", "dist", "tests-e2e"],
   },
 });

@@ -10,7 +10,10 @@
     "db:seed": "npx tsx --env-file=.env.local scripts/seed.ts",
     "test": "node node_modules/vitest/dist/cli.js run",
     "test:watch": "node node_modules/vitest/dist/cli.js",
-    "test:ui": "node node_modules/vitest/dist/cli.js --ui"
+    "test:ui": "node node_modules/vitest/dist/cli.js --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
