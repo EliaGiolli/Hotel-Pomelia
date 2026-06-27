@@ -4,6 +4,20 @@
 > Three generations of authentic hospitality since 1958. **Certified Benefit Corporation** (Italian Law 208/2015).
 > 100% renewable energy · Organic zero-km cuisine · GOTS-certified linen · Barrier-free beach.
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Material_UI-007FFF?style=for-the-badge&logo=mui&logoColor=white" alt="Material UI" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white" alt="Mongoose" />
+  <img src="https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white" alt="Zod" />
+  <img src="https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white" alt="React Hook Form" />
+  <img src="https://img.shields.io/badge/Zustand-433E38?style=for-the-badge&logo=zustand&logoColor=white" alt="Zustand" />
+  <img src="https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white" alt="Vitest" />
+  <img src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
+</p>
+
 This repository contains the official web application of Hotel Pomelia, built with **Next.js App Router**, **React 19**, **Mongoose**, and **Material UI 6**.
 
 ---
@@ -157,6 +171,7 @@ src/features/booking/schemas/
 | [@testing-library/react](https://testing-library.com/) v16 | Component rendering and DOM assertions | jsdom |
 | [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server) v11 | Real MongoDB process in-memory, isolated per test suite | node |
 | [Playwright](https://playwright.dev/) v1.61 | Browser automation for end-to-end tests | Chromium |
+| [jest-axe](https://github.com/nickcolley/jest-axe) v10 + [axe-core](https://github.com/dequelabs/axe-core) v4.12 | WCAG 2.1 automated accessibility audit | jsdom |
 
 ---
 
@@ -278,6 +293,60 @@ expect(room._id).toBeDefined();
 
 ---
 
+### Layer 2c — Accessibility Audit: WCAG 2.1 Compliance
+
+**File:** [`src/core/a11y.test.tsx`](src/core/a11y.test.tsx)  
+**Report:** [`A11Y_AUDIT.md`](A11Y_AUDIT.md)
+
+**What it tests:** WCAG 2.1 AA structural compliance of the main interactive components using axe-core's rule engine — the same engine that powers browser DevTools accessibility panels.
+
+**Why it matters for the business:** Hotel Pomelia markets itself as an inclusive, barrier-free destination ("Barrier-free beach", "Accessible to all" experiences). Inaccessible web components are both a legal risk (EU Accessibility Act 2025) and a direct contradiction of the hotel's Benefit Corporation values. Automated axe-core checks catch structural violations — missing labels, invalid ARIA attribute references, broken landmark hierarchy — before they reach production.
+
+**What is tested:**
+
+| Test | Component | WCAG criteria verified |
+|---|---|---|
+| Global navigation | `Navbar` | Landmark roles (`header`, `nav`), `aria-current`, `aria-expanded`, icon `aria-hidden` |
+| Booking CTA | `BookingTriggerButton` | Button labelling via `aria-label`, semantic `<button>` role |
+| Room card (representative) | Card HTML structure | Heading hierarchy (`h3`), image `alt` text, list semantics |
+| Date selection step | `DateStep` | Input label association (`required`, `error`, `helperText` via `slotProps`) |
+| Room selection step | `RoomStep` | `RadioGroup` named by `FormLabel`, `FormControl error` state |
+| Meal plan step | `BoardStep` | `RadioGroup` named by `FormLabel`, `required` attribute propagation |
+| Guest data step | `SummaryStep` | `TextField` label association, `autoComplete` attributes, error state |
+
+**Tooling approach:** Augmenting Vitest's `expect` with `toHaveNoViolations()` causes TypeScript error TS2428 (`Assertion` interface type-parameter mismatch). The suite instead uses a typed helper `assertNoA11yViolations()` that calls `axe()` directly and throws a structured `Error` on any violation. The error message includes the impact level, axe rule ID, WCAG criteria, and the exact HTML of every non-compliant node — making each failure immediately actionable without opening the browser.
+
+```ts
+// On a violation the test output reads, for example:
+// axe-core ha trovato 1 violazione/i WCAG:
+//
+// [CRITICAL] aria-valid-attr-value: Ensures all ARIA attributes have valid values
+//   Regola WCAG: wcag2a, wcag412
+//   Nodi coinvolti:
+//     <button aria-controls="missing-id" aria-expanded="false" ...>Apri menu</button>
+async function assertNoA11yViolations(container: Element): Promise<void> {
+  const results: AxeResults = await axe(container);
+  if (results.violations.length === 0) return;
+  // ...throws with full structured detail
+}
+```
+
+**Result (2026-06-27):** All 7 tests pass. No automated violations found. Static code analysis identified three lower-priority observations documented in [`A11Y_AUDIT.md`](A11Y_AUDIT.md): `aria-controls` targeting the Modal root element rather than the inner `<nav>` in `Navbar`; decorative icons in `EsperienzeContent` lacking `aria-hidden`; and the "Riepilogo prenotazione" summary header using `subtitle1` typography instead of an `h3` heading.
+
+**Known limitations of automated testing** — the following WCAG criteria require manual browser verification:
+
+| WCAG Criterion | Why axe cannot cover it in jsdom |
+|---|---|
+| 1.4.3 Contrast (Minimum) | jsdom applies no CSS; computed colour values are absent |
+| 2.4.7 Focus Visible | `:focus` pseudo-class requires real browser rendering |
+| 2.1.2 No Keyboard Trap | Requires live keyboard interaction in a real browser |
+
+See [`A11Y_AUDIT.md`](A11Y_AUDIT.md) for the full manual review checklist, static-analysis findings with before/after fix snippets, and colour contrast estimates.
+
+**Environment:** `jsdom` (same as component integration tests).
+
+---
+
 ### Layer 3 — End-to-End Tests: Critical User Paths
 
 **File:** [`tests-e2e/navigation.spec.ts`](tests-e2e/navigation.spec.ts)
@@ -346,8 +415,9 @@ npx playwright install chromium
 | EsperienzeContent rendering | `EsperienzeContent.test.tsx` | 4 | Vitest |
 | getRooms query | `getRooms.test.ts` | 5 | Vitest |
 | getExperiences query | `getExperiences.test.ts` | 5 | Vitest |
+| WCAG 2.1 accessibility audit | `a11y.test.tsx` | 7 | Vitest |
 | Navigation happy path | `navigation.spec.ts` | 2 | Playwright |
-| **Total** | | **26** | |
+| **Total** | | **33** | |
 
 ---
 
