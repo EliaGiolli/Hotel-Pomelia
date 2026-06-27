@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.DATABASE_URL as string;
-
-if (!MONGODB_URI) {
-  throw new Error("DATABASE_URL non definita nelle variabili d'ambiente");
-}
-
 type MongooseCache = { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
 
 declare global {
@@ -18,6 +12,11 @@ globalThis.__mongooseCache = cached;
 export default async function dbConnect(): Promise<mongoose.Connection | null> {
   if (process.env.NEXT_PHASE === "phase-production-build") {
     return null;
+  }
+
+  const MONGODB_URI = process.env.DATABASE_URL;
+  if (!MONGODB_URI) {
+    throw new Error("DATABASE_URL non definita nelle variabili d'ambiente");
   }
 
   if (cached.conn) return cached.conn;

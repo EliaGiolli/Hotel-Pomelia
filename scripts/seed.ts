@@ -25,7 +25,7 @@ async function main() {
         description: "Splendida vista sul giardino e massimo comfort.",
         capacity: 2,
         features: ["Wi-Fi", "Aria Condizionata", "Minibar", "Idromassaggio"],
-        images: [],
+        images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&auto=format&fit=crop&q=75"],
       },
       {
         name: "Camera Deluxe",
@@ -34,7 +34,7 @@ async function main() {
         description: "Spaziosa e luminosa, ideale per il relax.",
         capacity: 2,
         features: ["Wi-Fi", "Aria Condizionata", "Smart TV"],
-        images: [],
+        images: ["https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&auto=format&fit=crop&q=75"],
       },
     ]);
     console.log("🔮 Camere inserite.");

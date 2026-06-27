@@ -82,14 +82,16 @@ export default async function CamereContent() {
                     "&:hover": { boxShadow: "0 8px 32px rgba(0,0,0,0.12)" },
                   }}
                 >
-                  <Box sx={{ position: "relative", height: 260 }}>
-                    <Image
-                      src={room.images[0]}
-                      alt={room.name}
-                      fill
-                      sizes="(max-width:900px) 100vw, 50vw"
-                      style={{ objectFit: "cover" }}
-                    />
+                  <Box sx={{ position: "relative", height: 260, backgroundColor: "#1A1A2E" }}>
+                    {room.images?.[0] && (
+                      <Image
+                        src={room.images[0]}
+                        alt={room.name}
+                        fill
+                        sizes="(max-width:900px) 100vw, 50vw"
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
                   </Box>
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
