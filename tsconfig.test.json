@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Aggiunge i tipi globali di Vitest (describe, it, expect, vi, …)
+    // senza doverli importare in ogni file di test
+    "types": ["vitest/globals"]
+  },
+  "include": ["vitest.setup.ts", "src/**/*.test.ts", "src/**/*.test.tsx"]
+}
